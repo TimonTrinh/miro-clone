@@ -13,8 +13,7 @@ interface ConvexClientProviderProps {
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL!; 
 const convex = new ConvexReactClient(convexUrl);
 
-
-const ConvexClientProvider = ({
+export const ConvexClientProvider = ({
     children
 }: ConvexClientProviderProps) => {  
     return (
@@ -23,7 +22,5 @@ const ConvexClientProvider = ({
                 {children}
             </ConvexProviderWithClerk>
         </ClerkProvider>
-    )
-}
-
-export default ConvexClientProvider;
+    );
+};
