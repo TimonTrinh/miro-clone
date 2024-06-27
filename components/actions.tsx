@@ -39,7 +39,7 @@ export const Actions = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 side={side} sideOffset={sideOffset} className="w-60"
-                
+                onClick={(e) => e.stopPropagation()}
             >
                 <DropdownMenuItem className="p-2 cursor-pointer" onClick={onCopyLink} >
                     <Link2 className="h-4 w-4 mr-2"/> Copy board's link
