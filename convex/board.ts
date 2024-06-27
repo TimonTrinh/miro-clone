@@ -87,7 +87,7 @@ export const rename = mutation({
             throw new Error("Board not found");
         }
 
-        if (board.orgId !== identity.subject) {
+        if (board.authorId !== identity.subject) {
             throw new Error("User is not board's owner");
         }
 
