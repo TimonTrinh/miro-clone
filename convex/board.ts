@@ -37,3 +37,28 @@ export const create = mutation({
         });
     }
 });
+
+export const remove = mutation({ 
+    args: {
+        id: v.id("boards")
+    }, 
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Unauthorized");
+        }
+
+        const board = await ctx.db.get(args.id);
+        if (!board) {
+            throw new Error("Board not found");
+        }
+
+        if (board.authorId!== identity.subject) {
+            throw new Error("User is not board's owner");
+        }
+
+        //TODO: next to check and delete board in "Favorites" relation.
+
+        await ctx.db.delete( args.id);
+    }
+})
