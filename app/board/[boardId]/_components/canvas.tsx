@@ -12,7 +12,8 @@ interface CanvasProps {
 export const Canvas = ({
     boardId
 }:CanvasProps) => {
-    const name = useSelf((me) => me.info?.name);
+    const userInfo = useSelf((me) => me.info);
+    console.log(userInfo);
     return (
         <main
             className="h-full w-full relative bg-neutral-100 touch-none"
