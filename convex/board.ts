@@ -57,8 +57,18 @@ export const remove = mutation({
             throw new Error("User is not board's owner");
         }
 
-        //TODO: next to check and delete board in "Favorites" relation.
+        //Next to check and delete board in "Favorites" relation.
+        const userId = identity.subject;
+        const existingFav = await ctx.db.query("userFavorites")
+            .withIndex("by_user_board", (q) => 
+                q.eq("userId", userId)
+                 .eq("boardId", args.id)
+            ).unique();
+        if (existingFav) {
+            await ctx.db.delete(existingFav._id);
+        }
 
+        //Now safe to delete the board
         await ctx.db.delete( args.id);
     }
 })
