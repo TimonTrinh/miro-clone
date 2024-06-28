@@ -22,11 +22,6 @@ export async function POST (request: Request) {
 
     const { room } = await request.json();
     const board = await convex.query(api.board.get, {id: room});
-    console.log ("Room & Board", {
-        room, board, 
-        boardOrgId: board?.orgId, 
-        userOrgId: authentication.orgId,
-    })
 
     if (board?.orgId != authentication.orgId) {
         return new Response("Unauthorized");
@@ -41,13 +36,11 @@ export async function POST (request: Request) {
         user.id, 
         { userInfo } 
     )
-    console.log({userInfo});
     
     if (room) {
         session.allow(room, session.FULL_ACCESS);
     }
 
     const { status, body} = await session.authorize();
-    console.log({status, body}, "Allowed");
     return new Response(body, {status});
 }
