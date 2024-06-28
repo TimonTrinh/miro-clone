@@ -19,6 +19,15 @@ export const BoardFooter = ({
     onClick,
     disabled,
 }: BoardFooterProps) => {
+    const handleClick = (
+        event: React.MouseEvent<HTMLButtonElement,MouseEvent>
+    ) => {
+        //To prevent click-to-go on [favorite] button
+        event.stopPropagation();
+        event.preventDefault();
+        onClick();
+    };
+
     return (
         <div className="relative bg-white p-1">
             <p className="text-[13px] truncate max-w-[100%-20px]">
@@ -31,7 +40,7 @@ export const BoardFooter = ({
                 className={cn("absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-blue-600",
                 disabled && "cursor-not-allowed opacity-75"                    
                 )}
-                onClick={onClick}
+                onClick={handleClick}
                 disabled={disabled}
             >
                 <Star 
