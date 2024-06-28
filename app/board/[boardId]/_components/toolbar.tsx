@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { Redo2, Undo2 } from "lucide-react";
 
 export const Toolbar = () => { 
@@ -19,5 +20,11 @@ export const Toolbar = () => {
                 <Redo2 />
             </div>
         </div>
+    );
+}
+
+Toolbar.Skeleton = function ToolbarSkeleton() {
+    return (
+        <div className="absolute top-[50%] -translate-y-[50%] flex flex-col gap-y-4 left-2 bg-white h-[360px] w-[52px] shadow-md rounded-md"/>
     );
 }
