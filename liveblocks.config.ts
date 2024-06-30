@@ -56,6 +56,7 @@ export const {
   suspense: {
     RoomProvider, 
     useRoom, 
+    useOthers,
     useSelf
   }
 } = createRoomContext(client);
