@@ -17,7 +17,7 @@ export const Participants = ({
     const users = useOthers();
     const currentUser = useSelf();
     const hasMoreUsers = users.length > MAX_SHOWN_USERS;
-    console.log({users});
+    
     return (
         <div className="absolute h-12 top-2 right-2 rounded-md p-3 flex items-center shadow-md bg-white">
             <div className="flex gap-x-2">
