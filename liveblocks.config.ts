@@ -57,6 +57,8 @@ export const {
     RoomProvider, 
     useRoom, 
     useOthers,
-    useSelf
+    useSelf, 
+    useHistory,
+    useCanUndo, useCanRedo
   }
 } = createRoomContext(client);
