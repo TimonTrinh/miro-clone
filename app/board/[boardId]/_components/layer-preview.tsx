@@ -3,7 +3,6 @@
 import { useStorage } from "@/liveblocks.config";
 import { LayerType } from "@/types/canvas";
 import { Rectangle } from "./rectangle";
-import { PointerEvent } from "react";
 
 interface LayerPreviewProps {
     id: string;

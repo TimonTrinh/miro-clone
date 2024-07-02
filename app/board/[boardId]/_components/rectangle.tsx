@@ -1,5 +1,6 @@
 "use client";
 
+import { colorToCss } from "@/lib/utils";
 import { RectangleLayer } from "@/types/canvas";
 
 interface RectangleProps {
@@ -22,9 +23,9 @@ export const Rectangle = ({
             style={{
                 transform: `translate(${x}px, ${y}px))`
             }}
-            fill={selectionColor}
-            stroke="tranparent"
-            strokeWidth={1}
+            stroke={selectionColor ? selectionColor : "transparent"}
+            strokeWidth={2}
+            fill={ fill ? colorToCss(fill) : "transparent"}
             x={x} y={y} width={width} height={height}
         >
 

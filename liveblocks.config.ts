@@ -69,5 +69,6 @@ export const {
     useCanUndo, useCanRedo, 
     useOthersConnectionIds,
     useMutation,useStorage,
+    useOthersMapped,
   }
 } = createRoomContext(client);

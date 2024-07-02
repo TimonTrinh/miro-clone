@@ -17,7 +17,6 @@ const COLORS = [
   "cyan",
   "sky",
   "sapphire",
-  "lavender",
   "rose",
   "maroon",
   "olive",
