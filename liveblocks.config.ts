@@ -1,5 +1,10 @@
-import {createClient} from "@liveblocks/client";
+import {
+  createClient, 
+  LiveList, 
+  LiveMap, 
+  LiveObject } from "@liveblocks/client";
 import {createRoomContext} from "@liveblocks/react";
+import { Layer, Color } from "./types/canvas";
 
 const client = createClient({
   // publicApiKey: "pk_prod_pO0UAgPrisV3uN2BPfAcnRIH4CpwUR82mMc_FQdVUsUqjpo_wFrKrVQ_tj9b_77_",
@@ -14,12 +19,13 @@ declare global {
     // Each user's Presence, for useMyPresence, useOthers, etc.
     Presence: {
       cursor: { x: number; y: number } |  null;
+      selection: string[] | null;
     };
 
     // The Storage tree for the room, for useMutation, useStorage, etc.
     Storage: {
-      // Example, a conflict-free list
-      // animals: LiveList<string>;
+      layers: LiveMap<string, LiveObject<Layer>>;
+      layerIds: LiveList<string>;
     };
 
     UserMeta: {
@@ -62,6 +68,6 @@ export const {
     useHistory,
     useCanUndo, useCanRedo, 
     useOthersConnectionIds,
-    useMutation,
+    useMutation,useStorage,
   }
 } = createRoomContext(client);
