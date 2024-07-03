@@ -21,6 +21,7 @@ export const SelectionBox = memo(({
         soleLayerId && root.layers.get(soleLayerId)?.type !== LayerType.Path
     );
     const bound = useSelectionBounds();
+
     if (!bound) return null;
 
     return (
@@ -28,7 +29,7 @@ export const SelectionBox = memo(({
             <rect 
                 className="fill-transparent stroke-blue-500 stroke-1 pointer-events-none"
                 style={{
-                    transform: `translate(${bound.x}px, ${bound.y}px)`
+                    transform: `translate(${bound.x}px, ${bound.y}px)`,
                 }}
                 x={0} y={0} 
                 width={bound.width} 

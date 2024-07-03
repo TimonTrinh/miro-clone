@@ -230,6 +230,7 @@ export const Canvas = ({
                             id={layerId}
                             onLayerPointerDown={onLayerPointerDown}
                             selectionColor={layerIdsToColorSelection[layerId]??null}
+                            cursorValue={canvasState.mode === CanvasMode.Translating ? "move" : "default"}
                         />
                     ))}
                     <SelectionBox 

@@ -8,12 +8,14 @@ interface LayerPreviewProps {
     id: string;
     onLayerPointerDown: (e:React.PointerEvent, layerId: string) => void;
     selectionColor: string;
+    cursorValue?: string;  //Extended for cursor selection
 }
 
 export const LayerPreview = ({
     id,
     onLayerPointerDown,
     selectionColor,
+    cursorValue = "default"  //Default cursor for layer previews, extended for cursor selection in canvas.
 }: LayerPreviewProps) => {
     const layer = useStorage((root) => root.layers.get(id))
     if (!layer) return null;
@@ -25,7 +27,8 @@ export const LayerPreview = ({
                     id={id} 
                     layer={layer}
                     onPointerDown={onLayerPointerDown} 
-                    selectionColor={selectionColor} 
+                    selectionColor={selectionColor}
+                    cursorValue={cursorValue}
                 />
             );
         default: 
