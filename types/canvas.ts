@@ -18,8 +18,8 @@ export type RectangleLayer = {
     type: LayerType.Rectangle;
     x: number;
     y: number;
-    height: number;
     width: number;
+    height: number;
     fill: Color;
     value?: string;
 };

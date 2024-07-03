@@ -16,6 +16,7 @@ import { connectionIdColor, pointerEventToCanvasPoint } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
+import { SelectionBox } from "./selection-box";
 
 
 const MAX_LAYERS = 50; // max number of layers on the canvas
@@ -171,6 +172,9 @@ export const Canvas = ({
                             selectionColor={layerIdsToColorSelection[layerId]??null}
                         />
                     ))}
+                    <SelectionBox 
+                        onResizeHandlePointerDown={() => {}}
+                    />
                     <CursorPresence />
                 </g>
             </svg>

@@ -21,12 +21,12 @@ export const Rectangle = ({
         <rect className="drop-shadow-md"
             onPointerDown={(e) => onPointerDown(e, id)}
             style={{
-                transform: `translate(${x}px, ${y}px))`
+                transform: `translate(${x}px, ${y}px)`
             }}
             stroke={selectionColor ? selectionColor : "transparent"}
             strokeWidth={2}
             fill={ fill ? colorToCss(fill) : "transparent"}
-            x={x} y={y} width={width} height={height}
+            x={0} y={0} width={width} height={height}
         >
 
         </rect>
