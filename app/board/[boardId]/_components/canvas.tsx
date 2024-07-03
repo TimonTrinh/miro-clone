@@ -81,6 +81,11 @@ export const Canvas = ({
         }
     }, [canvasState])
 
+    const unSelectLayer = useMutation(({self, setMyPresence}) => {
+        if (self.presence.selection && self.presence.selection.length > 0) {
+            setMyPresence({selection: []}, {addToHistory: true});
+        }
+    }, []);
     const translateSelectedLayer = useMutation((
         {storage, self},
         point: Point,
@@ -148,7 +153,10 @@ export const Canvas = ({
     const onPointerUp = useMutation(({}, e) => {
         const point = pointerEventToCanvasPoint(e, camera);
         
-        if (canvasState.mode === CanvasMode.Inserting) {
+        if (canvasState.mode === CanvasMode.None || canvasState.mode === CanvasMode.Pressing) {
+            unSelectLayer();
+            setCanvasState({mode: CanvasMode.None});
+        }else if (canvasState.mode === CanvasMode.Inserting) {
             if (canvasState.layerType !== LayerType.Path) {
                 insertLayer(canvasState.layerType, point);
             } else {
@@ -162,7 +170,16 @@ export const Canvas = ({
         }
 
         history.resume();
-    }, [camera, canvasState, insertLayer, history]);
+    }, [camera, canvasState, insertLayer, history, unSelectLayer]);
+
+    const onPointerDown = useCallback((e: React.PointerEvent) => {
+        const point = pointerEventToCanvasPoint(e, camera);
+        if (canvasState.mode === CanvasMode.Inserting) return;
+        
+        //TODO: add case for drawing
+
+        setCanvasState({origin: point, mode: CanvasMode.Pressing});
+    },[camera, canvasState.mode, setCanvasState]);
 
     const onLayerPointerDown = useMutation(( 
         {self, setMyPresence}, 
@@ -218,6 +235,7 @@ export const Canvas = ({
                 onPointerMove={onPointerMove}
                 onPointerLeave={onPointerLeave}
                 onPointerUp={onPointerUp}
+                onPointerDown={onPointerDown}
             >
                 <g
                     style={{
