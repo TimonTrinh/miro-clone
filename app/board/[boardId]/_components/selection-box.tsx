@@ -45,19 +45,21 @@ export const SelectionBox = memo(({
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from top-left corner
+                            //resizing from top-left
+                            onResizeHandlePointerDown(Side.Top+Side.Left, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
                         style={{
-                            cursor: "n-resize",
+                            cursor: "ns-resize",
                             transform: `translate(${bound.x+bound.width/2 - HANDLE_WIDTH/2}px, ${bound.y-HANDLE_WIDTH/2}px)`,
                             width: `${HANDLE_WIDTH}`,
                             height: `${HANDLE_WIDTH}`,
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from top-middle corner
+                            //resizing from top-middle
+                            onResizeHandlePointerDown(Side.Top, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
@@ -69,19 +71,21 @@ export const SelectionBox = memo(({
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from top-right corner
+                            //resizing from top-right
+                            onResizeHandlePointerDown(Side.Top+Side.Right, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
                         style={{
-                            cursor: "e-resize",
+                            cursor: "ew-resize",
                             transform: `translate(${bound.x+bound.width - HANDLE_WIDTH/2}px, ${bound.y+bound.height/2-HANDLE_WIDTH/2}px)`,
                             width: `${HANDLE_WIDTH}`,
                             height: `${HANDLE_WIDTH}`,
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from middle-right corner
+                            //resizing from middle-right
+                            onResizeHandlePointerDown(Side.Right, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
@@ -93,19 +97,21 @@ export const SelectionBox = memo(({
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from bottom-left corner
+                            //resizing from bottom-left
+                            onResizeHandlePointerDown(Side.Bottom+Side.Left, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
                         style={{
-                            cursor: "w-resize",
+                            cursor: "ew-resize",
                             transform: `translate(${bound.x - HANDLE_WIDTH/2}px, ${bound.y+bound.height/2-HANDLE_WIDTH/2}px)`,
                             width: `${HANDLE_WIDTH}`,
                             height: `${HANDLE_WIDTH}`,
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from middle-left corner
+                            //resizing from middle-left
+                            onResizeHandlePointerDown(Side.Left, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
@@ -117,19 +123,21 @@ export const SelectionBox = memo(({
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from bottom-right corner
+                            //resizing from bottom-right
+                            onResizeHandlePointerDown(Side.Bottom+Side.Right, bound);
                         }}
                      />
                      <rect className="fill-white stroke-1 stroke-blue-500" 
                         style={{
-                            cursor: "s-resize",
+                            cursor: "ns-resize",
                             transform: `translate(${bound.x+bound.width/2 - HANDLE_WIDTH/2}px, ${bound.y+bound.height-HANDLE_WIDTH/2}px)`,
                             width: `${HANDLE_WIDTH}`,
                             height: `${HANDLE_WIDTH}`,
                         }}
                         onPointerDown={(e) => {
                             e.stopPropagation();
-                            //TODO: handle resize from bottom-middle corner
+                            //resizing from bottom-middle
+                            onResizeHandlePointerDown(Side.Bottom, bound);
                         }}
                      />
                 </>
