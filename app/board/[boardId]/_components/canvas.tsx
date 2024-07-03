@@ -17,6 +17,7 @@ import { nanoid } from "nanoid";
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./selection-box";
+import { join } from "path";
 
 
 const MAX_LAYERS = 50; // max number of layers on the canvas
@@ -80,6 +81,29 @@ export const Canvas = ({
         }
     }, [canvasState])
 
+    const translateSelectedLayer = useMutation((
+        {storage, self},
+        point: Point,
+    ) => {
+        if (canvasState.mode !== CanvasMode.Translating) return;
+
+        let offset = {
+            x: point.x - canvasState.current.x,
+            y: point.y - canvasState.current.y,
+        }
+        let liveLayers = storage.get("layers");
+        for (let id of self.presence.selection!) {
+            let layer = liveLayers.get(id);
+            if (layer) {
+                layer.update({x: layer.get("x") + offset.x, y: layer.get("y") + offset.y});
+            }
+        }
+        setCanvasState({
+            mode: CanvasMode.Translating, 
+            current: point,
+        });
+    }, [canvasState]);
+
     const onResizeHandlePointerDown = useCallback((
         corner: Side,
         initialBounds: XYWH,
@@ -104,7 +128,10 @@ export const Canvas = ({
             e.preventDefault();
             const current = pointerEventToCanvasPoint(e, camera);
 
-            if (canvasState.mode === CanvasMode.Resizing) {
+            if (canvasState.mode === CanvasMode.Translating){
+                //On moving the layer
+                translateSelectedLayer(current);
+            }else if (canvasState.mode === CanvasMode.Resizing) {
                 //On resizing 
                 resizeSelectedLayer(current);
             }
