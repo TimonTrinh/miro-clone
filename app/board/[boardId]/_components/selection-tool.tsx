@@ -47,9 +47,10 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
                 indices.push(i);
             }
         }
-        let lastIndex = liveLayerIds.length - 1;
-        for (let i=0; i < indices.length; i++) {
-            liveLayerIds.move(indices[i], lastIndex);
+        let lastArrayIndex = arrIds.length - 1;
+        let lastIndex = indices.length-1;
+        for (let i=lastIndex; i >=0; i--) {
+            liveLayerIds.move(indices[i], lastArrayIndex - lastIndex + i);
         }
 
     },[selection]);
