@@ -12,7 +12,7 @@ import { useHistory,
     useMutation,useStorage,useOthersMapped,
  } from "@/liveblocks.config";
 import { CursorPresence } from "./cursor-presence";
-import { connectionIdColor, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
+import { connectionIdColor, findIntersectingLayersWithRectangle, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
@@ -110,6 +110,36 @@ export const Canvas = ({
         });
     }, [canvasState]);
 
+    const startMultiSelection = useCallback((
+        current: Point,
+        origin: Point,
+    ) => {
+        if (Math.abs(current.x - origin.x) + Math.abs(current.y - origin.y) > 5) {
+            setCanvasState({
+                mode: CanvasMode.SelectionNet,
+                origin,
+                current,
+            });
+        }
+    },[]);
+
+    const updateSelectionNet = useMutation((
+        {storage, setMyPresence}, 
+        current: Point,
+        origin: Point,
+    ) => {
+        let liveLayers = storage.get("layers").toImmutable();
+        setCanvasState({
+            mode: CanvasMode.SelectionNet,
+            origin,
+            current,
+        });
+
+        const ids = findIntersectingLayersWithRectangle(layerIds, liveLayers, origin, current);
+
+        setMyPresence({selection: ids});
+    },[layerIds]);
+
     const onResizeHandlePointerDown = useCallback((
         corner: Side,
         initialBounds: XYWH,
@@ -134,7 +164,12 @@ export const Canvas = ({
             e.preventDefault();
             const current = pointerEventToCanvasPoint(e, camera);
 
-            if (canvasState.mode === CanvasMode.Translating){
+            if (canvasState.mode === CanvasMode.Pressing) {
+                //On pressing down on the canvas
+                startMultiSelection(current, canvasState.origin);
+            }else if (canvasState.mode === CanvasMode.SelectionNet){
+                updateSelectionNet(current, canvasState.origin);
+            }else if (canvasState.mode === CanvasMode.Translating){
                 //On moving the layer
                 translateSelectedLayer(current);
             }else if (canvasState.mode === CanvasMode.Resizing) {
@@ -265,3 +300,4 @@ export const Canvas = ({
         </main>
     );
 }
+
