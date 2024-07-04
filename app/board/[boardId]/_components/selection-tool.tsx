@@ -4,6 +4,12 @@ import { memo } from "react";
 import { Camera, Color } from "@/types/canvas";
 import { useSelf } from "@/liveblocks.config";
 import { useSelectionBounds } from "@/app/hooks/use-selection-bounds";
+import { ColorPicker } from "./color-picker";
+import { useMutation } from "@liveblocks/react";
+import { useDeleteLayers } from "@/app/hooks/use-delete-layers";
+import { Button } from "@/components/ui/button";
+import { Hint } from "@/components/hint";
+import { Trash2 } from "lucide-react";
 
 interface SelectionToolsProps {
     camera: Camera, 
@@ -12,8 +18,24 @@ interface SelectionToolsProps {
 
 export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionToolsProps) => {
 
-    let selection = useSelf((me) => me.presence.selection);
-    let selectionBounds = useSelectionBounds();
+    const selection = useSelf((me) => me.presence.selection);
+    const setFill = useMutation((
+        {storage}, 
+        fill: Color,
+    ) => {
+        console.log({setFill: fill});
+        setLastUsedColor(fill); 
+        let liveLayers = storage.get("layers");
+
+        selection?.forEach((layerId) => {
+            liveLayers.get(layerId)?.set("fill", fill);
+        });
+        
+    }, [selection,setLastUsedColor]);
+
+    const deleteLayers = useDeleteLayers();
+
+    const selectionBounds = useSelectionBounds();
 
     if (!selectionBounds) return null;
 
@@ -30,7 +52,20 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
                 )`,
             }}
         >
-            My tools
+            <ColorPicker 
+                onChange={setFill}
+            />
+            <div className="flex items-center pl-2 ml-2 border-l border-neutral-200">
+                <Hint label="Delete" >
+                    <Button
+                        variant="board"
+                        size="icon"
+                        onClick={deleteLayers}
+                    >
+                        <Trash2/>
+                    </Button>
+                </Hint>
+            </div>
         </div>
     );
 });
