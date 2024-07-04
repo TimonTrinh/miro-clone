@@ -18,6 +18,7 @@ import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./selection-box";
 import { join } from "path";
+import { SelectionTools } from "./selection-tool";
 
 
 const MAX_LAYERS = 50; // max number of layers on the canvas
@@ -229,6 +230,10 @@ export const Canvas = ({
                 setCanvasState={setCanvasState} 
                 undo={history.undo} 
                 redo={history.redo}  />
+            <SelectionTools 
+                camera={camera}
+                setLastUsedColor={setLastUsedColor} 
+            />
             <svg
                 className="h-[100vh] w-[100vw]"
                 onWheel={onWheel}
