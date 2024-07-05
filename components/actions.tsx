@@ -54,7 +54,7 @@ export const Actions = ({
                 }}
             >
                 <DropdownMenuItem className="flex items-center p-2 cursor-pointer" onClick={onCopyLink} >
-                    <Link2 className="h-4 w-4 mr-2"/> Copy board's link
+                    <Link2 className="h-4 w-4 mr-2"/> Copy board&apos;s link
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex items-center p-2 cursor-pointer" onClick={() => onOpen(id, title)} >
                     <Pencil className="h-4 w-4 mr-2"/> Rename

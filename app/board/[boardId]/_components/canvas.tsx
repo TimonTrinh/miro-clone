@@ -55,11 +55,9 @@ export const Canvas = ({
                 case "z":
                     if (event.ctrlKey || event.metaKey) {
                         if (event.shiftKey) {
-                            if (canRedo) history.redo();
+                            history.redo();
                         } else {
-                            if (canUndo) {
-                                history.undo();
-                            }
+                            history.undo();
                         }
                     } 
                     break;
