@@ -20,6 +20,12 @@ declare global {
     Presence: {
       cursor: { x: number; y: number } |  null;
       selection: string[] | null;
+      pencilDraft: [
+        x: number, 
+        y: number, 
+        pressure: number
+      ][] | null;
+      penColor: Color | null;
     };
 
     // The Storage tree for the room, for useMutation, useStorage, etc.
