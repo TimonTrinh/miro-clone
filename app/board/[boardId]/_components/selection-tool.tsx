@@ -23,7 +23,6 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
         {storage}, 
         fill: Color,
     ) => {
-        console.log({setFill: fill});
         setLastUsedColor(fill); 
         let liveLayers = storage.get("layers");
 
