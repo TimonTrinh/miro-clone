@@ -31,8 +31,8 @@ export const LayerPreview = ({
             return (
                 <Path 
                     key={id}
-                    x={0} 
-                    y={0} 
+                    x={layer.x} 
+                    y={layer.y} 
                     points={layer.points} 
                     onPointerDown={(e) => onLayerPointerDown(e, id)}
                     stroke={selectionColor ? selectionColor : "black"}                    
