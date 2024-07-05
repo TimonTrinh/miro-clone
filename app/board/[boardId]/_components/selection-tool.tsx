@@ -39,7 +39,7 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
     ) => {
         let liveLayerIds = storage.get("layerIds");
         const indices: number[] = [];
-        const arrIds = liveLayerIds.toArray();
+        const arrIds = liveLayerIds.toImmutable();
 
         for (let i = 0; i < arrIds.length; i++) {
             if (selection?.includes(arrIds[i])) {
@@ -59,7 +59,7 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
     ) => {
         let liveLayerIds = storage.get("layerIds");
         const indices: number[] = [];
-        const arrIds = liveLayerIds.toArray();
+        const arrIds = liveLayerIds.toImmutable();
 
         for (let i = 0; i < arrIds.length; i++) {
             if (selection?.includes(arrIds[i])) {
