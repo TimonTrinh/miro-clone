@@ -4,7 +4,7 @@ import { Info } from "./info";
 import { Participants } from "./participants";
 import { Toolbar } from "./toolbar";
 import { useSelf } from "@/liveblocks.config";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { CanvasState, CanvasMode, Camera, Color, LayerType, Point, Side, XYWH } from "@/types/canvas";
 import { useHistory, 
     useCanUndo, 
@@ -19,6 +19,8 @@ import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./selection-box";
 import { SelectionTools } from "./selection-tool";
 import { Path } from "./path";
+import { useDisableScrollBound } from "@/app/hooks/use-disable-scroll-bound";
+import { useDeleteLayers } from "@/app/hooks/use-delete-layers";
 
 
 const MAX_LAYERS = 50; // max number of layers on the canvas
@@ -44,6 +46,38 @@ export const Canvas = ({
     let history = useHistory();
     let canUndo = useCanUndo();
     let canRedo = useCanRedo();
+
+    useDisableScrollBound();
+    const deleteLayers = useDeleteLayers();
+    useEffect(() => {
+        function onKeyDown(event: KeyboardEvent) {
+            switch (event.key) {
+                case "z":
+                    if (event.ctrlKey || event.metaKey) {
+                        if (event.shiftKey) {
+                            if (canRedo) history.redo();
+                        } else {
+                            if (canUndo) {
+                                history.undo();
+                            }
+                        }
+                    } 
+                    break;
+                case "y":
+                    if (event.ctrlKey && canRedo) {
+                        history.redo();
+                    }
+                    break;
+            }
+        }
+
+        document.addEventListener("keydown", onKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", onKeyDown);
+        };
+
+    },[history, deleteLayers]);
 
     const insertLayer = useMutation((
         {storage, setMyPresence}, 
