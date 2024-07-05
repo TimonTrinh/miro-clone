@@ -125,15 +125,30 @@ export function penPointsToPathLayer(
   }
 
   let left = Number.POSITIVE_INFINITY;
-  let right = Number.NEGATIVE_INFINITY;
   let top = Number.POSITIVE_INFINITY;
+  let right = Number.NEGATIVE_INFINITY;
   let bottom = Number.NEGATIVE_INFINITY;
 
-  for(const [x, y] of points) { 
-    left = Math.min(left, x);
-    right = Math.max(right, x);
-    top = Math.min(top, y);
-    bottom = Math.max(bottom, y);
+  // for(const [x, y] of points) { 
+  //   left = Math.min(left, x);
+  //   right = Math.max(right, x);
+  //   top = Math.min(top, y);
+  //   bottom = Math.max(bottom, y);
+  // }
+  for (const point of points) {
+    const [x, y] = point;
+    if (left > x) {
+      left = x;
+    }
+    if (right < x) {
+      right = x;
+    }
+    if (top > y) {
+      top = y;
+    }
+    if (bottom < y) {
+      bottom = y;
+    }
   }
 
   return {

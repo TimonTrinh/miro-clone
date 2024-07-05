@@ -12,13 +12,13 @@ import { useHistory,
     useMutation,useStorage,useOthersMapped,
  } from "@/liveblocks.config";
 import { CursorPresence } from "./cursor-presence";
-import { connectionIdColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
+import { colorToCss, connectionIdColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./selection-box";
-import { join } from "path";
 import { SelectionTools } from "./selection-tool";
+import { Path } from "./path";
 
 
 const MAX_LAYERS = 50; // max number of layers on the canvas
@@ -38,6 +38,8 @@ export const Canvas = ({
     const [ lastUsedColor, setLastUsedColor] = useState<Color>({
         r:0,g:0,b:0
     })
+    const pencilDraft = useSelf((me) => me.presence.pencilDraft);
+
     let layerIds = useStorage((root) => root.layerIds);
     let history = useHistory();
     let canUndo = useCanUndo();
@@ -133,7 +135,6 @@ export const Canvas = ({
         if (canvasState.mode !== CanvasMode.Pencil ||
             e.buttons !== 1 || 
             pencilDraft == null ) {
-            
             //nothing to draw
             return;
         }
@@ -252,7 +253,6 @@ export const Canvas = ({
             translateSelectedLayer, 
             startMultiSelection,
             updateSelectionNet,
-            startDrawing,
             continueDrawing,
         ]);
     
@@ -283,11 +283,11 @@ export const Canvas = ({
         }
 
         history.resume();
-    }, [camera, canvasState, 
+    }, [
+        camera, canvasState, history, 
         insertLayer, 
-        history, 
-        unSelectLayer, 
         insertPath, 
+        unSelectLayer, 
         setCanvasState
     ]);
 
@@ -366,7 +366,7 @@ export const Canvas = ({
             >
                 <g
                     style={{
-                        transform: `translate(${camera.x}px, ${camera.y}px)`
+                        transform: `translate(${camera.x}px, ${camera.y}py)`
                     }}
                 >
                     {layerIds.map((layerId) => (
@@ -392,6 +392,15 @@ export const Canvas = ({
                     )
                     }
                     <CursorPresence />
+                    {pencilDraft !=null && pencilDraft.length > 0 && (
+                        <Path 
+                            x={0} 
+                            y={0} 
+                            fill={colorToCss(lastUsedColor)}
+                            points={pencilDraft} 
+                            
+                        />
+                    )}
                 </g>
             </svg>
         </main>

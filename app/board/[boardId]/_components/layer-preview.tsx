@@ -37,6 +37,7 @@ export const LayerPreview = ({
                     onPointerDown={(e) => onLayerPointerDown(e, id)}
                     stroke={selectionColor ? selectionColor : "black"}                    
                     fill={layer.fill ? colorToCss(layer.fill) : "black"}
+                    cursorValue={cursorValue}
                 />
             );
         case LayerType.Text:
@@ -46,6 +47,7 @@ export const LayerPreview = ({
                     layer={layer}
                     onPointerDown={onLayerPointerDown}
                     selectionColor={selectionColor}
+                    cursorValue={cursorValue}
                 />
             );
         case LayerType.Note: 
@@ -64,6 +66,7 @@ export const LayerPreview = ({
                     layer={layer}
                     onPointerDown={onLayerPointerDown}
                     selectionColor={selectionColor}
+                    cursorValue={cursorValue}
                 />
             );
         case LayerType.Rectangle: 
